@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context="com.staggarlee.javasoundz.ui.RecordingActivity"
+                android:id="@+id/layout">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Track"
+        android:id="@+id/newTrackButton"
+        android:layout_alignTop="@+id/pausePlayButton"
+        android:layout_toRightOf="@+id/pausePlayButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause/Play"
+        android:id="@+id/pausePlayButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Artist"
+        android:id="@+id/currentArtistText"
+        android:layout_above="@+id/newTrackButton"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:id="@+id/trackTimeText"
+        android:layout_above="@+id/newTrackButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Track 1"
+        android:id="@+id/trackNumberText"
+        android:layout_above="@+id/newTrackButton"
+        android:layout_toLeftOf="@+id/trackTimeText"
+        android:layout_toStartOf="@+id/trackTimeText"
+        android:layout_marginRight="20sp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/artistImage"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/images"
+        android:layout_toStartOf="@+id/trackNumberText"
+        android:layout_toLeftOf="@+id/trackNumberText"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:id="@+id/setTimeLeft"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/newTrackButton"
+        android:layout_toStartOf="@+id/newTrackButton"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="40sp"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/artistListView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/artistImage"
+        android:layout_above="@+id/currentArtistText"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Artist"
+        android:id="@+id/nextArtistButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/artistListView"
+        android:layout_toEndOf="@+id/artistImage"
+        android:layout_toRightOf="@+id/artistImage"/>
+
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Java Soundz</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="startButtonText">Create A Show</string>
+    <string name="venueHintText">Enter a venue</string>
+    <string name="title_activity_create_set">Enter Tonight\'s Artists</string>
+    <string name="location">venue</string>
+    <string name="artists_label">Artists</string>
+    <string name="title_activity_recording">RecordingActivity</string>
+</resources>
