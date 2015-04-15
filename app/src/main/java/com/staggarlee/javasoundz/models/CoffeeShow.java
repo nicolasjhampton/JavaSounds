@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 
@@ -14,15 +16,15 @@ public class CoffeeShow {
 
     private String mLocation;
     private String mDateStamp;
-    private List<ArtistSet> mSetList;
+    private List<Map<String,ArtistSet>> mSetList;
     private String mShowDirectory;
 
-    public CoffeeShow(String location) {
+    public CoffeeShow(List<Map<String,ArtistSet>> show, String location) {
         mLocation = location;
-        SimpleDateFormat yearMonthDay = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat yearMonthDay = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         yearMonthDay.setTimeZone(TimeZone.getDefault());
         mDateStamp = yearMonthDay.format(new Date().getTime() * 1000);
-        mSetList = new ArrayList<ArtistSet>();
+        mSetList = show;
 
     }
 
@@ -44,18 +46,18 @@ public class CoffeeShow {
     }
 
     public ArtistSet getArtistSet(int index) {
-        return mSetList.get(index);
+        return mSetList.get(index).get("Artists");
     }
 
-    public void addArtistSet(String artist) {
-        mSetList.add(new ArtistSet(artist));
-    }
+    // public void addArtistSet(String artist) {
+    //    mSetList.put(new ArtistSet(artist));
+    // }
 
-    public List<ArtistSet> getSetList() {
+    public List<Map<String,ArtistSet>> getSetList() {
         return mSetList;
     }
 
-    public void setSetList(List<ArtistSet> setList) {
+    public void setSetList(List<Map<String,ArtistSet>> setList) {
         mSetList = setList;
     }
 }

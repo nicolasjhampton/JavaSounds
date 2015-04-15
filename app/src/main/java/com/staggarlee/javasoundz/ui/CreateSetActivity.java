@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.staggarlee.javasoundz.R;
 import com.staggarlee.javasoundz.models.ArtistSet;
+import com.staggarlee.javasoundz.models.CoffeeShow;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,12 +42,15 @@ public class CreateSetActivity extends ActionBarActivity {
 
     // We're going to use the artistList and simpleAdpt across the Activities
     // so we declare them protected so all members of this package can access them.
-    protected SimpleAdapter simpleAdpt;
-    protected static List<Map<String, ArtistSet>> artistList = new ArrayList<Map<String,ArtistSet>>();
+
+    protected static CoffeeShow currentShow;
+    private SimpleAdapter simpleAdpt;
+    private List<Map<String, ArtistSet>> artistList = new ArrayList<Map<String,ArtistSet>>();
 
     // I'm declaring an ArtistSet private here so we can create one,
     // load it into the list, and reclaim the resource at the end of the Activity.
-    private ArtistSet artist;
+
+
 
 
     @Override
@@ -58,7 +62,7 @@ public class CreateSetActivity extends ActionBarActivity {
 
         // Obtaining the location from the previous activity and displaying it
         final String locationLabel = getString(R.string.location);
-        String location = getIntent().getStringExtra(locationLabel);
+        final String location = getIntent().getStringExtra(locationLabel);
         mVenueView.setText(location);
 
         // Initializing the simple adapter (Took this from outside of the createArtist method)
@@ -76,18 +80,22 @@ public class CreateSetActivity extends ActionBarActivity {
             public void onClick(View view) {
                 // adding the artist and set time to the artist list
                 // then passing the list to the adapter to display
+
                 try{
 
 
                     artistList.add(createArtist());
-                    artist.setSetTime(mInputSetTime.getText().toString());
+                    artistList.get(artistList.size()-1).get("Artists")
+                            .setSetTime(mInputSetTime.getText().toString());
 
-                } catch (ParseException p) {
+                } catch (ParseException | NullPointerException n) {
                     Toast.makeText(CreateSetActivity.this, "Incorrect time format", Toast.LENGTH_LONG).show();
+                    artistList.remove(artistList.size()-1);
                 }
 
 
                 mSetList.setAdapter(simpleAdpt);
+                mArtistInput.setText("");
             }
         });
 
@@ -96,6 +104,7 @@ public class CreateSetActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 // starting the next activity
+                currentShow = new CoffeeShow(artistList, location);
                 Intent intent = new Intent(CreateSetActivity.this, RecordingActivity.class);
                 startActivity(intent);
 
@@ -109,7 +118,7 @@ public class CreateSetActivity extends ActionBarActivity {
     public HashMap<String, ArtistSet> createArtist() {
         // Creating a hashmap to store entry for the adapter
         HashMap<String, ArtistSet> hashMap = new HashMap<String, ArtistSet>();
-        artist = new ArtistSet(mArtistInput.getText().toString());
+        ArtistSet artist = new ArtistSet(mArtistInput.getText().toString());
 
         // Create a new ArtistSet with the artist from the EditText
 

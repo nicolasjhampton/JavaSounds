@@ -24,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/inputArtistName"
-        android:hint="Enter artist name"/>
+        android:hint="Enter artist name"
+        android:singleLine="true"
+        android:maxLength="25"
+        android:maxLines="1"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -32,7 +35,11 @@
         android:inputType="time"
         android:ems="10"
         android:id="@+id/inputSetTime"
-        />
+        android:singleLine="true"
+        android:maxLength="7"
+        android:lines="1"
+        android:hint="Enter set length (0:00:00)"
+        android:text="0:15:00"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -40,7 +47,8 @@
         android:text="The Venue"
         android:id="@+id/venueView"
         android:layout_gravity="center_horizontal"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:textColor="#FFF88D1B"/>
 
     <ListView
         android:layout_width="match_parent"

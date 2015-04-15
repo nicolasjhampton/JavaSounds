@@ -21,9 +21,9 @@ public class SetRecorder {
         mDirectory = directory;
     }
 
-    public void addArtist(String name) {
-        ArtistSet artist = new ArtistSet(name);
-        mShow.getSetList().add(artist);
-
-    }
+   // public void addArtist(String name) {
+   //     ArtistSet artist = new ArtistSet(name);
+   //     mShow.getSetList().add(artist);
+    //
+   // }
 }

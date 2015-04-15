@@ -22,11 +22,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pause/Play"
+        android:text="REC"
         android:id="@+id/pausePlayButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,10 +76,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/newTrackButton"
         android:layout_toStartOf="@+id/newTrackButton"
         android:textColor="@android:color/holo_red_light"
-        android:textSize="40sp"/>
+        android:textSize="40sp"
+        android:layout_alignRight="@+id/artistImage"
+        android:layout_alignEnd="@+id/artistImage"/>
 
     <ListView
         android:layout_width="wrap_content"

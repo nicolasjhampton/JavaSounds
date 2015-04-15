@@ -2,6 +2,7 @@ package com.staggarlee.javasoundz.models;
 
 import android.os.ParcelFormatException;
 import android.os.Parcelable;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ public class ArtistSet {
     private String mSlideFile;
     private List<Track> mTracks;
     private SimpleDateFormat mSetTimeFormat;
+    private SimpleDateFormat mSetTimeFormatPrint;
     private Date mSetTime;
 
 
@@ -26,19 +28,68 @@ public class ArtistSet {
         mArtist = artist;
 
         mTracks = new ArrayList<Track>();
-
-        mSetTimeFormat = new SimpleDateFormat("mm:ss");
+        // formatting numbers coming in
+        mSetTimeFormat = new SimpleDateFormat("Kmmss");
+        mSetTimeFormatPrint = new SimpleDateFormat("K:mm:ss");
 
         mSetTime = null;
 
     }
 
     public String getSetTime() {
-        return mSetTimeFormat.format(mSetTime);
+
+        if(mSetTime != null) {
+            return mSetTimeFormat.format(mSetTime);
+        } else {
+            return "0000";
+        }
     }
 
     public void setSetTime(String setTime) throws ParseException {
-        mSetTime = mSetTimeFormat.parse(setTime);
+        // take out any spaces
+        setTime.trim();
+
+
+        if(setTime.contains(":")) {
+           setTime = setTime.replaceAll(":","");
+        }
+
+        // If 5 digits entered and the interpretation is over 2 hours
+        if(setTime.length() > 5 || setTime.length() == 0 || Integer.decode(setTime) >= 20000) {
+            // The set is too goddamn long, don't let that motherfucker on stage
+            throw new ParseException("Time Too Long", 57);
+        }
+
+        // If four digits entered
+        if(setTime.length() == 4) {
+        // Assume input in minutes
+            setTime = "0".concat(setTime);
+        }
+
+        // If three digits entered
+        if (setTime.length() == 3) {
+        // Assume input in minutes (In case of poetry open mic)
+            setTime = "00".concat(setTime);
+        }
+
+        // If 2 digits entered
+        if(setTime.length() == 2) {
+        // Assume input in minutes
+            setTime = "0".concat(setTime);
+            setTime = setTime.concat("00");
+        }
+
+        // If 1 digit entered
+        if(setTime.length() == 1) {
+        // Assume input in minutes
+            setTime = "00".concat(setTime);
+            setTime = setTime.concat("00");
+        }
+
+
+
+            mSetTime = mSetTimeFormat.parse(setTime);
+
     }
 
     public String getArtist() {
@@ -75,7 +126,8 @@ public class ArtistSet {
 
     @Override
     public String toString() {
-        return mArtist + " - " + getSetTime();
+
+        return mArtist + " - " + mSetTimeFormatPrint.format(mSetTime);
     }
 
 }
