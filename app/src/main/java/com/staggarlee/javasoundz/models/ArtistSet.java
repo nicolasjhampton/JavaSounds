@@ -28,6 +28,7 @@ public class ArtistSet {
         mArtist = artist;
 
         mTracks = new ArrayList<Track>();
+        //mTracks.set(0, new Track(mArtist));
         // formatting numbers coming in
         mSetTimeFormat = new SimpleDateFormat("Kmmss");
         mSetTimeFormatPrint = new SimpleDateFormat("K:mm:ss");
