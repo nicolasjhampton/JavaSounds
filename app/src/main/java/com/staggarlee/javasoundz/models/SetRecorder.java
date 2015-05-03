@@ -1,10 +1,14 @@
 package com.staggarlee.javasoundz.models;
 
 import android.media.MediaRecorder;
+import android.os.Environment;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static java.io.File.*;
 
 /**
  * Created by nicolas on 4/11/15.
@@ -27,7 +31,7 @@ public class SetRecorder {
         mSetNumber = 0;
         mShow = show;
         mArtist = mShow.getArtistSet(mSetNumber);
-        mDirectory = mShow.getLocation() + "/";
+        mDirectory = mShow.getLocation();
         mTrackNumber = 0;
 
 
@@ -82,17 +86,31 @@ public class SetRecorder {
 
     public void setRecorder() {
         mRecorder = new MediaRecorder();
-        // mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        // mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+
     }
 
     public void prepareOutput() throws IOException {
         mArtist.setTrack();
+        mRecorder.reset();
+        File artistDirectory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/" + "javasoundz" +
+                "/" + getDirectory() + "/" + mArtist.getArtist() + "/" );
+        if(!artistDirectory.exists()) {
+            artistDirectory.mkdirs();
+        }
+        System.setProperty("user.dir", artistDirectory.getPath());
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(mArtist.getTrack(mTrackNumber).toString());
-        //getDirectory() + "/" + mArtist.getArtist() + "/" +
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+
+        //getDirectory() + "/" + mArtist.getArtist() + "/"
+        // +
+        // Environment.getDownloadCacheDirectory().getAbsolutePath()
 
 
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.VORBIS);
+
+
         mRecorder.prepare();
     }
 

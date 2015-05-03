@@ -100,7 +100,7 @@ public class RecordingActivity extends ActionBarActivity {
                 } catch (IOException e) {
                     Toast.makeText(RecordingActivity.this,
                                    "Recording preparation failed",
-                                   Toast.LENGTH_LONG).show();
+                                   Toast.LENGTH_SHORT).show();
                 }
 
 
