@@ -75,7 +75,7 @@ public class CreateSetActivity extends ActionBarActivity {
 
 
 
-         mAddArtist.setOnClickListener(new View.OnClickListener() {
+        mAddArtist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // adding the artist and set time to the artist list
@@ -106,6 +106,7 @@ public class CreateSetActivity extends ActionBarActivity {
                 // starting the next activity
                 currentShow = new CoffeeShow(artistList, location);
                 Intent intent = new Intent(CreateSetActivity.this, RecordingActivity.class);
+
                 startActivity(intent);
 
             }

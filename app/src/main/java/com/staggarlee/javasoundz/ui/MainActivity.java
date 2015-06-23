@@ -29,7 +29,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.inject(this);
-        final String locationLabel = getString(R.string.location);
 
 
         final Intent intent = new Intent(MainActivity.this, CreateSetActivity.class);
@@ -39,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 String location = mLocation.getText().toString();
-                intent.putExtra(locationLabel, location);
+                intent.putExtra(getString(R.string.location), location);
                 startActivity(intent);
             }
         });

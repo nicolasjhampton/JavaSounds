@@ -32,7 +32,7 @@ public class Track {
         SimpleDateFormat militaryTime = new SimpleDateFormat("hh:mm");
         militaryTime.setTimeZone(TimeZone.getDefault());
         String timeStamp = militaryTime.format(mTime.getTime() * 1000);
-        return mArtist + "-" + timeStamp + ".m4a";
+        return mArtist + "-" + timeStamp + ".aac";
     }
 
 

@@ -1,14 +1,13 @@
 package com.staggarlee.javasoundz.models;
 
-import android.media.MediaRecorder;
+import android.content.Context;
 import android.os.Environment;
+import android.widget.Toast;
+
+import com.staggarlee.javasoundz.recorder.AudioRecorder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-
-import static java.io.File.*;
 
 /**
  * Created by nicolas on 4/11/15.
@@ -17,15 +16,15 @@ public class SetRecorder {
 
     private CoffeeShow mShow;
     private String mDirectory = "";
-    private MediaRecorder mRecorder;
+    private AudioRecorder mRecorder;
     private int mTrackNumber;
     private ArtistSet mArtist;
     private int mSetNumber;
+    private Context mContext;
 
 
 
-
-    public SetRecorder(CoffeeShow show) {
+    public SetRecorder(Context context, CoffeeShow show) {
 
 
         mSetNumber = 0;
@@ -33,6 +32,7 @@ public class SetRecorder {
         mArtist = mShow.getArtistSet(mSetNumber);
         mDirectory = mShow.getLocation();
         mTrackNumber = 0;
+        mContext = context;
 
 
 
@@ -71,7 +71,7 @@ public class SetRecorder {
         mShow = show;
     }
 
-    public MediaRecorder getRecorder() {
+    public AudioRecorder getRecorder() {
         return mRecorder;
     }
 
@@ -81,81 +81,96 @@ public class SetRecorder {
 
     public void setDirectory() {
         // make the path for the current show location and date
-        mDirectory.concat(mShow.getDate());
+        mDirectory.concat(File.separator + mShow.getDate());
     }
 
     public void setRecorder() {
-        mRecorder = new MediaRecorder();
+        // Update to the current artist set
+        mArtist = mShow.getArtistSet(mSetNumber);
 
-    }
+        // define the directory path:
+        // "environment.musicfolder/venue/date/set#/"
+        File dir = new File((Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
+                + File.separator
+                + getDirectory() + File.separator
+                + mShow.getDate() + File.separator
+                + (getSetNumber() + 1)));
 
-    public void prepareOutput() throws IOException {
-        mArtist.setTrack();
-        mRecorder.reset();
-        File artistDirectory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/" + "javasoundz" +
-                "/" + getDirectory() + "/" + mArtist.getArtist() + "/" );
-        if(!artistDirectory.exists()) {
-            artistDirectory.mkdirs();
+        // check if the directory is made
+        if (!dir.exists()) {
+            // if the directory isn't made, make it
+            if (dir.mkdirs()) {
+
+            }
         }
-        System.setProperty("user.dir", artistDirectory.getPath());
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mArtist.getTrack(mTrackNumber).toString());
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
-        //getDirectory() + "/" + mArtist.getArtist() + "/"
-        // +
-        // Environment.getDownloadCacheDirectory().getAbsolutePath()
+        // set the recorder to the directory and file name:
+        // "environment.musicfolder/venue/date/set#/track#-artistname.aac"
+        mRecorder = AudioRecorder.build(mContext,
+                        dir + File.separator
+                        + (getTrackNumber() + 1) + "-"
+                        + getArtist().getArtist() + ".aac");
 
-
-
-
-        mRecorder.prepare();
-    }
-
-    public void startRec() {
-        mRecorder.start();
     }
 
     public void nextTrack() {
-        mRecorder.stop();
-        mRecorder.release();
+        // get the next track number, set the recorder for the next track,
+        // then seamlessly start the new track
+        pauseRec();
         mTrackNumber++;
+        setRecorder();
+        startRec();
     }
 
     public void nextArtist(){
-        if(mShow.getArtistSet(mSetNumber + 1) != null) {
-            mRecorder.stop();
-            mRecorder.release();
-            mSetNumber++;
-            mShow.getArtistSet(mSetNumber);
+        // If there is another set
+        if((mShow.getArtistSet(mSetNumber + 1)) != null) {
+
+            // Pause the recording
+            pauseRec();
+            // increment the set number and set the track to zero
+            mSetNumber = mSetNumber + 1;
             mTrackNumber = 0;
+            // set the recorder to the next artist
+            setRecorder();
+
         } else {
-            mRecorder.stop();
-            mRecorder.release();
+            Toast.makeText(mContext, "End of set", Toast.LENGTH_LONG).show();
+            pauseRec();
         }
     }
 
-    /*public void continueRec() throws IOException {
-        int temp;
-        prepareOutput();
-        FileOutputStream tempFile = new FileOutputStream("~/final.mp4");
-        FileInputStream firstFile = new FileInputStream(getDirectory() + "/" +
-                mArtist.getArtist() + "/" +
-                mArtist.getTrack(mTrackNumber)
-                        .toString());
-        FileInputStream currentInstance = new FileInputStream(mRecorder);
-        while((temp = firstFile.read()) != -1) {
+    public void pauseRec() {
+        mRecorder.pause(new AudioRecorder.OnPauseListener() {
+            @Override
+            public void onPaused(String activeRecordFileName) {
+                // do nothing yet
+            }
 
-        }
-
-
-        FileInputStream newFile = new FileInputStream()
+            @Override
+            public void onException(Exception e) {
+                Toast.makeText(mContext, "An error has occured:" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
-    */
+    public void startRec() {
+        mRecorder.start(new AudioRecorder.OnStartListener() {
+            @Override
+            public void onStarted() {
+                // started
+            }
+
+            @Override
+            public void onException(Exception e) {
+                // error
+                Toast.makeText(mContext, "Unable to start:" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 
 
 

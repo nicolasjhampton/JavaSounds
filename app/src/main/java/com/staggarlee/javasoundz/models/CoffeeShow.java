@@ -1,5 +1,9 @@
 package com.staggarlee.javasoundz.models;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,10 +18,11 @@ import java.util.TimeZone;
  */
 public class CoffeeShow {
 
-    private String mLocation;
-    private String mDateStamp;
+    private static String mLocation;
+    private static String mDateStamp;
     private List<Map<String,ArtistSet>> mSetList;
     private String mShowDirectory;
+
 
     public CoffeeShow(List<Map<String,ArtistSet>> show, String location) {
         mLocation = location;
@@ -28,7 +33,7 @@ public class CoffeeShow {
 
     }
 
-    public String getLocation() {
+    public static String getLocation() {
         return mLocation;
     }
 
@@ -36,7 +41,7 @@ public class CoffeeShow {
         mLocation = location;
     }
 
-    public String getDate() {
+    public static String getDate() {
         return mDateStamp;
     }
 
@@ -45,7 +50,7 @@ public class CoffeeShow {
         mDateStamp = yearMonthDay;
     }
 
-    public ArtistSet getArtistSet(int index) {
+    public ArtistSet getArtistSet(int index){
         return mSetList.get(index).get("Artists");
     }
 
@@ -60,4 +65,6 @@ public class CoffeeShow {
     public void setSetList(List<Map<String,ArtistSet>> setList) {
         mSetList = setList;
     }
+
+
 }

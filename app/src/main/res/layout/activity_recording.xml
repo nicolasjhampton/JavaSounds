@@ -22,7 +22,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="REC"
+        android:text="START"
         android:id="@+id/pauseRecButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -64,9 +64,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/images"
-        android:layout_toStartOf="@+id/trackNumberText"
-        android:layout_toLeftOf="@+id/trackNumberText"/>
+        android:src="@drawable/images"/>
 
     <TextView
         android:layout_width="wrap_content"
