@@ -49,9 +49,12 @@
         android:id="@+id/venueName"
         android:layout_above="@+id/startButton"
         android:layout_centerHorizontal="true"
+        android:textColor="#FFF88D1B"
         android:hint="@string/venueHintText"
+        android:textColorHint="#cccccccc"
         android:singleLine="true"
         android:maxLength="25"
+        tools:text="The Kraftbrau"
         android:lines="1"/>
 
 </RelativeLayout>

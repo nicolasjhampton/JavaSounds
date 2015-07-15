@@ -116,28 +116,18 @@ public class SetRecorder {
     public void nextTrack() {
         // get the next track number, set the recorder for the next track,
         // then seamlessly start the new track
-        pauseRec();
         mTrackNumber++;
         setRecorder();
         startRec();
     }
 
     public void nextArtist(){
-        // If there is another set
-        if((mShow.getArtistSet(mSetNumber + 1)) != null) {
 
-            // Pause the recording
-            pauseRec();
-            // increment the set number and set the track to zero
-            mSetNumber = mSetNumber + 1;
-            mTrackNumber = 0;
-            // set the recorder to the next artist
-            setRecorder();
-
-        } else {
-            Toast.makeText(mContext, "End of set", Toast.LENGTH_LONG).show();
-            pauseRec();
-        }
+        // increment the set number and set the track to zero
+        mSetNumber = mSetNumber + 1;
+        mTrackNumber = 0;
+        // set the recorder to the next artist
+        setRecorder();
     }
 
     public void pauseRec() {
